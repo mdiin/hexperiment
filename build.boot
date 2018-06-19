@@ -21,8 +21,8 @@
   (comp
     (watch)
     (speak)
-    (reload)
-    (cljs :ids ["main"])
+    (reload :on-jsload 'hexperiment.core/reload)
+    (cljs :ids ["ui"])
     (serve :port 8000)))
 
 (deftask build-ui

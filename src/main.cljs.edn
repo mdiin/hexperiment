@@ -1,5 +1,0 @@
-{:require []
- :init-fns [hexperiment.core/main]
- :compiler-options {:output-dir "js/main.out"
-                    :main hexperiment.core/main}}
-
