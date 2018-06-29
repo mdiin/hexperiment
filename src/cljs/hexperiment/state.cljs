@@ -4,7 +4,7 @@
 
 (enable-console-print!)
 
-(defonce app-state (cell {:messages {:initial "This is your first message!"}}))
+(defonce app-state (cell {}))
 
 (cell= (pr :app-state app-state))
 

@@ -11,10 +11,7 @@
   []
   (h/html
     (h/body
-      (h/h1 "Hexperiment away!")
-      (h/p "This is what it feels like...")
-      (h/p "yep, it is.")
-      (h/p (get-in @state/app-state [:messages :initial]))
+      (h/h1 "Indkøbslisten")
       (list/shopping-list
        (get-in @state/app-state [:items]))
       (list/add-item))))
