@@ -8,6 +8,7 @@
                  [seancorfield/boot-tools-deps "0.4.5" :scope "test"]
                  [tailrecursion/boot-jetty "0.1.3" :scope "test"]
 
+                 [com.andrewmcveigh/cljs-time "0.5.2"]
                  [org.clojure/clojure "1.10.0-alpha4"]
                  [org.clojure/clojurescript "1.10.312"]
                  [io.replikativ/replikativ "0.2.4"]
@@ -17,7 +18,7 @@
          '[tailrecursion.boot-jetty :refer [serve]]
          '[adzerk.boot-reload :refer [reload]]
          '[adzerk.boot-cljs :refer [cljs]]
-         '[adzerk.boot-cljs-repl :refer [cljs-repl]])
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
 
 (deftask dev-ui
   []
