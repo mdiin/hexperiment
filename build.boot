@@ -8,6 +8,8 @@
                  [seancorfield/boot-tools-deps "0.4.5" :scope "test"]
                  [tailrecursion/boot-jetty "0.1.3" :scope "test"]
 
+                 [com.taoensso/timbre "4.10.0"]
+                 [com.cognitect/transit-cljs "0.8.256"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [org.clojure/clojure "1.10.0-alpha4"]
                  [org.clojure/clojurescript "1.10.312"]

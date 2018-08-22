@@ -25,3 +25,8 @@
     (<?? S (kabel.peer/start peer))
     (println ";; peer started")
     (<?? S (async/chan))))
+
+(comment
+  (start-server)
+
+  )
