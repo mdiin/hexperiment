@@ -12,6 +12,7 @@
                  [org.clojure/clojure "1.10.0-alpha4"]
                  [org.clojure/clojurescript "1.10.312"]
                  [io.replikativ/replikativ "0.2.4"]
+                 [compojure "1.6.1"]
                  [hoplon "7.2.0"]])
 
 (require '[boot-tools-deps.core :refer [deps]]
