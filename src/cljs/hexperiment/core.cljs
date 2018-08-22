@@ -1,20 +1,67 @@
 (ns hexperiment.core
   (:require
-   [hexperiment.list :as list]
-   [hexperiment.state :as state]
-
+   [cljs-time.core :as time]
    [hoplon.core :as h]
-   [javelin.core :as j :refer [cell cell=]]
-   [hoplon.jquery]))
+   [hoplon.jquery]
+   [javelin.core :as j :refer [cell cell= defc=]]
+   [goog.object :as object]
+   ))
+
+(enable-console-print!)
+
+;; === State management ===
+
+(defonce app-state (cell {}))
+
+(cell= (pr :app-state app-state))
+
+;; === Components ===
+
+(defc= shopping-list-items
+  (get-in app-state [:items])
+  (partial swap! app-state assoc-in [:items]))
+
+(defn make-item
+  [name]
+  {:category :items/misc
+   :name name
+   :added (time/time-now)})
+
+(h/defelem add-item
+  [attributes children]
+  (let [input-state (cell "")]
+    (h/form
+     :submit #(do
+                (when-not (empty? @input-state)
+                  (swap! shopping-list-items (fnil conj []) (make-item @input-state)))
+                (reset! input-state "")
+                (.preventDefault %))
+     (h/input
+      :type "text"
+      :placeholder "Items"
+      :value @input-state
+      :change #(reset! input-state (object/getValueByKeys % "target" "value")))
+     (h/input :type "submit" :value "Add"))))
+
+(h/defelem shopping-list
+  [attributes children]
+  (let [items shopping-list-items]
+    (h/ol
+     attributes
+     (h/loop-tpl
+      :bindings [{:keys [name]} items]
+      (h/li name)))))
+
+;; === Initialization logic ===
 
 (defn init
   []
   (h/html
     (h/body
       (h/h1 "Indkøbslisten")
-      (list/shopping-list
-       (get-in @state/app-state [:items]))
-      (list/add-item))))
+      (shopping-list
+       (get-in @app-state [:items]))
+      (add-item))))
 
 (defn reload
   []
