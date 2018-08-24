@@ -24,11 +24,15 @@
          '[adzerk.boot-cljs :refer [cljs]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
 
+(set-env! :source-paths #{"src/cljc"}
+          :resource-paths #{"resources"}
+          :asset-paths #{"assets"})
+
+
+
 (deftask dev-ui
   []
-  (set-env! :source-paths #{"src/cljc" "src/cljs"}
-            :asset-paths #{"assets"}
-            :resource-paths #{"resources"})
+  (set-env! :source-paths #(conj % "src/cljs"))
   (comp
    (watch)
    (speak)
@@ -39,8 +43,32 @@
 
 (deftask build-ui
   []
-  (set-env! :source-paths #{"src/cljc" "src/cljs"})
+  (set-env! :source-paths #(conj % "src/cljs"))
   (comp
-   (target)
-   (cljs :ids ["ui"])))
+   (cljs :ids ["ui"]
+         :optimizations :advanced)))
 
+(deftask build-server
+  []
+  (set-env! :source-paths #(conj % "src/clj"))
+  (comp
+   (aot)
+   (pom)
+   (uber)
+   (jar)))
+
+(deftask build
+  []
+  (comp
+   (build-ui)
+   (sift :to-resource #{#"ui.js$"})
+   (build-server)
+   (sift :include #{#"\.jar$"})
+   (target)))
+
+(task-options!
+ pom {:project 'hexperiment
+      :version "1.0.0-SNAPSHOT"
+      :description "A Replikativ+Hoplon+Javelin experiment, evolving."}
+ aot {:namespace #{'hexperiment.core}}
+ jar {:main 'hexperiment.core})

@@ -1,4 +1,5 @@
 (ns hexperiment.core
+  (:gen-class)
   (:require
    [clojure.core.async :as async]
    [com.stuartsierra.component :as component :refer [Lifecycle]]
@@ -63,6 +64,10 @@
           :server (component/using
                    (map->Server {:port 8080})
                    [:routes :peer])))
+
+(defn -main [& args]
+  (alter-var-root #'app component/start-system)
+  :okay)
 
 (comment
   (alter-var-root #'hexperiment.core/app component/start-system)
