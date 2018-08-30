@@ -63,3 +63,11 @@
           :server (component/using
                    (map->Server {:port 8080})
                    [:routes :peer])))
+
+(defn start-server []
+  (alter-var-root #'hexperiment.server/app component/start-system)
+  :okay)
+
+(comment
+  (alter-var-root #'hexperiment.server/app component/start-system)
+  (alter-var-root #'hexperiment.server/app component/stop-system))
