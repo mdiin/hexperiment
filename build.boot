@@ -3,7 +3,7 @@
                  [adzerk/boot-cljs-repl "0.3.3" :scope "test"]
                  [adzerk/boot-reload "0.5.2" :scope "test"]
                  [com.cemerick/piggieback "0.2.1"  :scope "test"]
-                 [weasel                  "0.7.0"  :scope "test"]
+                 [weasel                  "0.7.0"  :scope "test" :exclusions [http-kit]]
                  [org.clojure/tools.nrepl "0.2.12" :scope "test"]
                  [seancorfield/boot-tools-deps "0.4.5" :scope "test"]
                  [tailrecursion/boot-jetty "0.1.3" :scope "test"]
