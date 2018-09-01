@@ -34,7 +34,7 @@
 (def user "mail:matthias@ingesman.dk")
 (def ormap-id #uuid "e29493b3-4241-4bdd-8e81-a573ddc3028d")
 
-(defc app-state {:items []})
+(defonce app-state (cell {:items []}))
 
 (def stream-eval-fns
   {'add (fn [S a new]
@@ -98,7 +98,7 @@
       :placeholder "Items"
       :value @input-state
       :change #(reset! input-state (object/getValueByKeys % "target" "value")))
-     (h/input :type "submit" :value "Add"))))
+     (h/input :type "submit" :value "Tilføj!"))))
 
 (h/defelem shopping-list
   [attributes children]
@@ -109,16 +109,20 @@
       :bindings [{:keys [name]} items]
       (h/li name)))))
 
+(h/defelem top-level
+  [attributes children]
+  (h/body
+   (h/h1 "Indkøbslisten #1")
+   (shopping-list
+    (get-in @app-state [:items]))
+   (add-item)))
+
 ;; === Initialization logic ===
 
 (defn init
   []
   (h/html
-    (h/body
-      (h/h1 "Indkøbslisten")
-      (shopping-list
-       (get-in @app-state [:items]))
-      (add-item))))
+   (top-level)))
 
 (defn reload
   []
