@@ -2,7 +2,7 @@
   (:require
    [clojure.core.async :as async]
    [com.stuartsierra.component :as component :refer [Lifecycle]]
-   [compojure.core :refer [defroutes]]
+   [compojure.core :refer [defroutes GET]]
    [compojure.route :refer [resources not-found]]
    [kabel.peer]
    [konserve.memory :as mem]
@@ -10,9 +10,11 @@
    [replikativ.peer]
    [superv.async :refer [<?? S]]
    [taoensso.timbre :as timbre]
-   ))
+
+   [clojure.java.io :as io]))
 
 (defroutes base-routes
+  (GET "/" [] (io/resource "index.html"))
   (resources "/")
   (not-found "<h1>Page not found.</h1>"))
 
