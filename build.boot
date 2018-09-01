@@ -6,7 +6,7 @@
                  [weasel                  "0.7.0"  :scope "test" :exclusions [http-kit]]
                  [org.clojure/tools.nrepl "0.2.12" :scope "test"]
                  [seancorfield/boot-tools-deps "0.4.5" :scope "test"]
-                 [tailrecursion/boot-jetty "0.1.3" :scope "test"]
+                 [pandeiro/boot-http "0.8.3" :scope "test"]
 
                  [com.stuartsierra/component "0.3.2"]
                  [com.taoensso/timbre "4.10.0"]
@@ -19,7 +19,7 @@
                  [hoplon "7.2.0"]])
 
 (require '[boot-tools-deps.core :refer [deps]]
-         '[tailrecursion.boot-jetty :refer [serve]]
+         '[pandeiro.boot-http :refer [serve]]
          '[adzerk.boot-reload :refer [reload]]
          '[adzerk.boot-cljs :refer [cljs]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
@@ -34,12 +34,13 @@
   []
   (set-env! :source-paths #(conj % "src/cljs"))
   (comp
+   (serve :port 8000 :dir "boot-dev-target/public" :reload true)
    (watch)
    (speak)
    (reload :on-jsload 'hexperiment.core/reload)
    (cljs-repl)
    (cljs :ids ["ui"])
-   (serve :port 8000)))
+   (target :dir #{"boot-dev-target"})))
 
 (deftask build-ui
   []

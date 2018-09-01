@@ -1,6 +1,6 @@
 {:require [hexperiment.core]
  :init-fns [hexperiment.core/main]
  :compiler-options {:optimizations :none
-                    :output-dir "js/ui.out"
-                    :output-to "js/ui.js"}}
+                    :output-dir "public/js/ui.out"
+                    :output-to "public/js/ui.js"}}
 

@@ -14,7 +14,7 @@
    [clojure.java.io :as io]))
 
 (defroutes base-routes
-  (GET "/" [] (io/resource "index.html"))
+  (GET "/" [] (io/resource "public/index.html"))
   (resources "/")
   (not-found "<h1>Page not found.</h1>"))
 
