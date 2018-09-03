@@ -28,8 +28,6 @@
           :resource-paths #{"resources"}
           :asset-paths #{"assets"})
 
-
-
 (deftask dev-ui
   []
   (set-env! :source-paths #(conj % "src/cljs"))
