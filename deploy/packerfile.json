@@ -1,0 +1,49 @@
+{
+    "variables": {
+        "projectName": null,
+        "projectVersion": null,
+        "environment": null,
+        "jarName": null,
+        "googleCloudProjectID": "hexperiment-215317"
+    },
+    "builders": [
+        {
+            "type": "docker",
+            "image": "openjdk:alpine",
+            "commit": true,
+            "run_command": ["-d", "-i", "-t", "{{.Image}}", "/bin/sh"],
+            "changes": [
+                "ENTRYPOINT /opt/{{user `projectName`}}/start.sh",
+                "EXPOSE 8000",
+                "EXPOSE 9000"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "ansible",
+            "playbook_file": "ansible/playbook.yml",
+            "groups": ["all"],
+            "extra_arguments": [
+                "--inventory=ansible/inventories/{{user `environment`}}/",
+                "--vault-password-file=ansible/.vault_password_file",
+                "--extra-vars",
+                "jar_name={{user `jarName`}}"
+            ]
+        }
+    ],
+    "post_processors": [
+        {
+            "type": "docker-tag",
+            "repository": "eu.gcr.io/{{user `googleCloudProjectID`}}/{{user `projectName`}}-{{user `environment`}}",
+            "tag": "{{user `projectVersion`}}"
+        },
+        {
+            "type": "docker-push",
+            "login": true,
+            "login_username": "_json_key",
+            "login_password": "",
+            "login_server": "https://gcr.io"
+        }
+    ]
+}
