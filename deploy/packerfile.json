@@ -4,7 +4,8 @@
         "projectVersion": null,
         "environment": null,
         "jarName": null,
-        "googleCloudProjectID": "hexperiment-215317"
+        "repositoryUser": null,
+        "repositoryPassword": null
     },
     "builders": [
         {
@@ -32,18 +33,17 @@
             ]
         }
     ],
-    "post_processors": [
+    "post-processors": [
         {
             "type": "docker-tag",
-            "repository": "eu.gcr.io/{{user `googleCloudProjectID`}}/{{user `projectName`}}-{{user `environment`}}",
-            "tag": "{{user `projectVersion`}}"
+            "repository": "planm-registry.app.j.layershift.co.uk:5000/{{user `projectName`}}",
+            "tag": "{{user `projectVersion`}}-{{user `environment`}}"
         },
         {
             "type": "docker-push",
             "login": true,
-            "login_username": "_json_key",
-            "login_password": "",
-            "login_server": "https://gcr.io"
+            "login_username": "{{user `repositoryUser`}}",
+            "login_password": "{{user `repositoryPassword`}}"
         }
     ]
 }
